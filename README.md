@@ -1,2 +1,3 @@
 # vue-fifa
-Vue - Fifa player data
+Using Vue to display a list of players and thier data presented in a graph 
+
