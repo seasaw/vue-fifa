@@ -1,0 +1,18 @@
+table#playerTable {
+    border-collapse: collapse;
+}
+
+#playerTable td,
+#playerTable th {
+    padding: 7px 2px;
+}
+
+#playerTable tr:not(.noHover):hover {
+    background-color: black;
+    cursor: pointer;
+}
+
+#chart svg {
+    height: 400px;
+    width: 100%;
+}

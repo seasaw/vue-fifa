@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link href="/styles/styles.css" rel="stylesheet">
+    <link href="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.css" rel="stylesheet">
+    <title>
+        Title
+    </title>
+</head>
+
+<body>
+    <div id="myVueApp">
+        <v-app dark>
+            <v-content>
+                <v-container>
+                    <v-toolbar>
+                        <v-toolbar-title>FIFA Player Database</v-toolbar-title>
+                    </v-toolbar>
+                    <v-layout2>
+                        <div>
+                            <v-select v-if="apiData" v-model="selectedCountry" v-on:change="selectionChange" :items="apiData.nations" label="Select Country"></v-select>
+                        </div>
+                    </v-layout>
+                    <v-content v-if="selectedCountry">
+                        <div>
+                            <v-btn v-on:click="toggleDetails" small color="primary">{{ showDetails ? 'Hide' : 'Show' }} Details</v-btn>
+                        </div>
+                        <table id="playerTable">
+                            <tr class="noHover">
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th v-show="showDetails">Rating</th>
+                            </tr>
+                            <tr v-on:click="openPlayerDialog(player)" v-for="player in apiData.top_10s[selectedCountry]">
+                                <td>{{ player.name }}</td>
+                                <td>{{ player.age }}</td>
+                                <td v-show="showDetails">{{ player.overall }}</td>
+                            </tr>
+                        </table>
+
+                    </v-content>
+                </v-container>
+            </v-content>
+
+            <v-dialog v-model="playerDialog" persistent max-width="900" v-if="selectedPlayer">
+                <v-card>
+                    <v-toolbar dark color="primary">
+                        <v-toolbar-title>Data for: {{ selectedPlayer.name }}</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text>
+                        <div id="chart">
+                            <svg></svg>
+                        </div>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" @click.native="playerDialog = false">Close</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+        </v-app>
+
+    </div>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.js"></script>
+<script src="scripts/scripts.js"></script>
+
+</html>
